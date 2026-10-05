@@ -1,0 +1,47 @@
+model: mahe
+implementation: models.mahe.MaheModel
+default:
+  seed: 42
+  reference_training:
+    mode: DRIAMS_MARISMA_PURES
+  selected_pipeline_id: S-BC-VS-N__snip__log2__b9da_avg__tic
+  selection_metric: mixture_prauc_global_within_0.001_then_simpler
+  model_parameters:
+    prototype_level: species
+    prototype_scaling: none
+    similarity_method: cosine
+    score_mode: coefficient_relative
+    normalize_coeffs: false
+    fit_intercept: true
+    gamma: 0.05
+    l1_ratio: 1.0
+    bic_active_threshold: 0.01
+    max_iter: 2000
+    tol: 1.0e-05
+    alphas:
+      - 1.0e-19
+      - 1.0e-18
+      - 1.0e-17
+      - 1.0e-16
+      - 1.0e-15
+  evaluation:
+    threshold_selection: pure_precision_max_pure_recall_max_mixture_precision_095_or_max_mixture_recall_max
+mahe:
+  params:
+    prototype_level: species
+    prototype_scaling: none
+    similarity_method: cosine
+    score_mode: coefficient_relative
+    normalize_coeffs: false
+    fit_intercept: true
+    gamma: 0.05
+    l1_ratio: 1.0
+    bic_active_threshold: 0.01
+    max_iter: 2000
+    tol: 1.0e-05
+    alphas:
+      - 1.0e-19
+      - 1.0e-18
+      - 1.0e-17
+      - 1.0e-16
+      - 1.0e-15

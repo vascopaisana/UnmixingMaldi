@@ -1,0 +1,19 @@
+# Pre-mix preprocessing for DRIAMS/MARISMA pures.
+
+pipeline:
+  - Trimmer
+  - Smoother
+  - BaselineCorrecter
+
+params:
+  Trimmer:
+    min: 2000
+    max: 20000
+
+  Smoother:
+    halfwindow: 10
+    polyorder: 3
+
+  BaselineCorrecter:
+    method: "SNIP"
+    snip_n_iter: 20

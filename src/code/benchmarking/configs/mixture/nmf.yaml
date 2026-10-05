@@ -1,0 +1,35 @@
+model: nmf
+implementation: models.nmf.NMFDeconvolutionModel
+default:
+  seed: 42
+  reference_training:
+    mode: DRIAMS_MARISMA_PURES
+  selected_pipeline_id: VS-S-BC-N__tophat__sqrt__b9da_avg__tic
+  selection_metric: mixture_prauc_global_within_0.001_then_simpler
+  model_parameters:
+    prototype: species_mean
+    prototype_scaling: none
+    inference_solver: mu
+    inference_beta_loss: kullback-leibler
+    inference_alpha_W: 1.0e-05
+    inference_l1_ratio: 0.25
+    score_mode: coefficient_raw
+    normalize_coeffs: false
+    clip_negative_values: true
+    max_iter: 1000
+    tol: 1.0e-05
+  evaluation:
+    threshold_selection: pure_precision_max_pure_recall_max_mixture_precision_095_or_max_mixture_recall_max
+nmf:
+  params:
+    prototype: species_mean
+    prototype_scaling: none
+    inference_solver: mu
+    inference_beta_loss: kullback-leibler
+    inference_alpha_W: 1.0e-05
+    inference_l1_ratio: 0.25
+    score_mode: coefficient_raw
+    normalize_coeffs: false
+    clip_negative_values: true
+    max_iter: 1000
+    tol: 1.0e-05

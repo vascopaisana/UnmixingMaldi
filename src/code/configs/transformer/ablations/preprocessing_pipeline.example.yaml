@@ -1,0 +1,32 @@
+base_config: ../default.example.yaml
+ablation:
+  name: preprocessing_pipeline
+  notes: "Public example with only the two retained pipeline variants."
+  variants:
+    transformer_best_s_bc_n_vs_snip_sqrt_b9da:
+      paths:
+        train_h5_paths:
+          - ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/pures_s_bc_n_vs__snip_sqrt_b9da_avg.h5
+          - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+        val_h5_paths:
+          - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+        output_dir: transformer/ablations/preprocessing_pipeline/s_bc_n_vs_snip_sqrt_b9da
+      preprocessing:
+        pipeline: "S > BC > N > VS"
+        pipeline_tag: s_bc_n_vs__snip_sqrt_b9da_avg
+        baseline: SNIP
+        variance_stabilization: sqrt
+
+    rf_cosine_best_s_bc_vs_n_snip_log2_b9da:
+      paths:
+        train_h5_paths:
+          - ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_vs_n__snip_log2_b9da_avg/pures_s_bc_vs_n__snip_log2_b9da_avg.h5
+          - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_vs_n__snip_log2_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+        val_h5_paths:
+          - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_vs_n__snip_log2_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+        output_dir: transformer/ablations/preprocessing_pipeline/s_bc_vs_n_snip_log2_b9da
+      preprocessing:
+        pipeline: "S > BC > VS > N"
+        pipeline_tag: s_bc_vs_n__snip_log2_b9da_avg
+        baseline: SNIP
+        variance_stabilization: log2

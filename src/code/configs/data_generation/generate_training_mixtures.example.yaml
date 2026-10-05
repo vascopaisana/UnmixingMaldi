@@ -1,0 +1,48 @@
+description: "Example synthetic in-silico mixture generation configs."
+default_variant: s_bc_n_vs_snip_sqrt_b9da
+
+base:
+  output_root: ${UNMIXMALDI_ROOT}/data
+  pure_dataset: driams_marisma
+  mixture_dataset: driams_marisma
+  reference_mixture_h5: null
+  log_every: 1000
+  cache_spectra: true
+  generation:
+    n_mixtures: 50000
+    num_workers: -1
+    min_species: 2
+    max_species: 6
+    dirichlet_alpha: [0.5, 1.0, 5.0]
+    min_abundance: 0.05
+    random_seed: 42
+  post_mix_binning:
+    start: 2000
+    stop: 20000
+    step: 9
+    aggregation: mean
+
+variants:
+  # Transformer best pipeline: prebin after S > BC, mix, then N > VS.
+  s_bc_n_vs_snip_sqrt_b9da:
+    source_h5: ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/pures_prebin_s_bc.h5
+    pipeline_tag: s_bc_n_vs__snip_sqrt_b9da_avg
+    post_mix_preprocessing:
+      - name: Normalizer
+        params:
+          sum: 1
+      - name: VarStabilizer
+        params:
+          method: sqrt
+
+  # RF+Cosine best pipeline: prebin after S > BC, mix, then VS > N.
+  s_bc_vs_n_snip_log2_b9da:
+    source_h5: ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_vs_n__snip_log2_b9da_avg/pures_prebin_s_bc.h5
+    pipeline_tag: s_bc_vs_n__snip_log2_b9da_avg
+    post_mix_preprocessing:
+      - name: VarStabilizer
+        params:
+          method: log2
+      - name: Normalizer
+        params:
+          sum: 1

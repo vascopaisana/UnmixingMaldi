@@ -1,0 +1,25 @@
+full_pipeline:
+  steps:
+    - S
+    - BC
+    - VS
+    - N
+  orders: all_permutations
+  baseline_correction:
+    - SNIP
+    - TopHat
+  variance_stabilization:
+    - sqrt
+    - log2
+  normalization: TIC
+  binning: b9da_avg
+  expected_pipeline_count: 96
+step_ablation:
+  remove_one_step:
+    - S
+    - BC
+    - VS
+    - N
+  binning: b9da_avg
+  expected_pipeline_count: 72
+

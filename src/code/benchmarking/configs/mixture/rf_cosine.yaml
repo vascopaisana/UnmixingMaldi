@@ -1,0 +1,27 @@
+model: rf_cosine
+implementation: models.rf_cosine.RFCosineModel
+reference_mode_default: DRIAMS_MARISMA_PURES
+default:
+  seed: 42
+  model_parameters:
+    n_estimators: 200
+    random_state: 42
+    min_samples_per_binary_class: 2
+    negative_top_k: 30
+    class_weight: balanced
+    sklearn_n_jobs: -1
+    abundance_presence_threshold: 0.0
+    subtract_cross_species_training_baseline: true
+    cross_species_baseline_method: nonnegative_ridge
+  score_modes:
+    - rf_weighted_cosine_baseline_adjusted
+    - rf_weighted_cosine
+    - cosine
+  reference_training:
+    mode: DRIAMS_MARISMA_PURES
+    pure_sources:
+      - MARISMA
+      - DRIAMS-A
+  evaluation:
+    threshold_selection: pure_precision_max_pure_recall_max_mixture_precision_095_or_max_mixture_recall_max
+    max_pairs_for_similarity_summary: 20000

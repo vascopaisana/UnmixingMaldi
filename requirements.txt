@@ -1,0 +1,12 @@
+numpy
+pandas
+scipy
+scikit-learn
+h5py
+PyYAML
+torch
+lightning
+einops
+matplotlib
+pyteomics
+comet-ml

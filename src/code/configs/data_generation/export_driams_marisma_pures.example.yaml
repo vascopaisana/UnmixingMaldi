@@ -1,0 +1,40 @@
+description: "Example DRIAMS/MARISMA pure-spectrum export configs."
+default_variant: s_bc_n_vs_snip_sqrt_b9da
+
+base:
+  # Leave null to discover spectra from the public raw dataset folders below.
+  # Advanced users may provide a CSV with file_path,dataset,species,sample_id.
+  metadata_csv: null
+  sources:
+    - dataset: MARISMA
+      root_dir: ${UNMIXMALDI_ROOT}/data/raw/MARISMA
+    - dataset: DRIAMS-A
+      root_dir: ${UNMIXMALDI_ROOT}/data/raw/DRIAMS-A
+  species_selection:
+    mode: intersection
+    # Default downsampling cap per species and source dataset.
+    # Set to null to keep every discovered spectrum.
+    max_per_species_per_dataset: 100
+    # Reproducible random sampling without replacement.
+    # Sources use random_seed + their order in the sources list.
+    random_seed: 42
+  export:
+    fixed_length: true
+    chunk_size: 1000
+    compression: gzip
+    compression_opts: null
+    keep_meta: true
+    num_workers: -1
+
+variants:
+  # Transformer best pipeline: S > BC, then synthetic mixtures apply N > VS.
+  s_bc_n_vs_snip_sqrt_b9da:
+    export:
+      output_path: ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/pures_prebin_s_bc.h5
+      preprocessing_pipeline: ${UNMIXMALDI_ROOT}/src/code/configs/preprocessing_pipelines/s_bc.yaml
+
+  # RF+Cosine best pipeline: S > BC, then downstream processing applies VS > N.
+  s_bc_vs_n_snip_log2_b9da:
+    export:
+      output_path: ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_vs_n__snip_log2_b9da_avg/pures_prebin_s_bc.h5
+      preprocessing_pipeline: ${UNMIXMALDI_ROOT}/src/code/configs/preprocessing_pipelines/s_bc.yaml

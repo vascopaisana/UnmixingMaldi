@@ -1,0 +1,64 @@
+# Main benchmark manifest.
+#
+# This file has one active benchmark. Edit the values under `benchmark` and
+# `runtime`, then run:
+#
+#   python src/code/benchmarking/run_benchmarks.py
+#
+# Use `--dry-run` first to inspect the resolved command without running it.
+
+benchmark:
+  task: mixture
+  experiment: full_pipeline
+  config: all
+
+runtime:
+  # Number of parallel shard processes launched by run_benchmarks.py.
+  # shards: 1 means no split. shards: 10 automatically runs 1/10 ... 10/10.
+  shards: 1
+
+  # Workers inside each shard process. Use 1 for sequential work within each
+  # shard while shards run in parallel.
+  workers_per_shard: 4
+
+  dry_run: true
+
+paths:
+  output_dir: ${UNMIXMALDI_ROOT}/outputs/benchmarks
+  temp_dir: ${UNMIXMALDI_ROOT}/outputs/benchmarks/_tmp
+  logs_dir: ${UNMIXMALDI_ROOT}/outputs/benchmarks/logs
+
+datasets:
+  marisma:
+    root: ${UNMIXMALDI_ROOT}/data/raw/MARISMA
+  driams_a:
+    root: ${UNMIXMALDI_ROOT}/data/raw/DRIAMS-A
+  experimental_mixtures:
+    manifests:
+      - ${UNMIXMALDI_ROOT}/data/manifests/mixtures/local_mixtures.example.csv
+
+# Runnable values ----------------------------------------------------------
+#
+# Mixture benchmarks:
+#   task: mixture
+#   experiment: full_pipeline | step_ablation
+#   config: all | rf_cosine | mahe | nmf | yang
+#
+# Pure cross-domain benchmarks:
+#   task: pure
+#   experiment: full_pipeline | step_ablation
+#   config: all | random_forest | svm | logistic_regression | knn
+#
+# To run the full-pipeline pure cross-domain benchmark for every classifier:
+#
+# benchmark:
+#   task: pure
+#   experiment: full_pipeline
+#   config: all
+#
+# To run only SVM:
+#
+# benchmark:
+#   task: pure
+#   experiment: full_pipeline
+#   config: svm

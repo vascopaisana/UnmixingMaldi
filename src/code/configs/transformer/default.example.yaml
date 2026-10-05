@@ -1,0 +1,105 @@
+seed: 42
+
+experiment:
+  type: default
+  name: public_transformer_example
+  notes: "Example configuration for public DRIAMS/MARISMA pures and generated in-silico mixtures."
+
+paths:
+  train_h5_paths:
+    - ${UNMIXMALDI_ROOT}/data/pures/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/pures_s_bc_n_vs__snip_sqrt_b9da_avg.h5
+    - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+  # Provide private or external validation mixtures here after converting them
+  # to the documented H5 schema. For a smoke test, users can point this at a
+  # held-out generated mixture H5.
+  val_h5_paths:
+    - ${UNMIXMALDI_ROOT}/data/mixtures/IN_SILICO/driams_marisma/s_bc_n_vs__snip_sqrt_b9da_avg/mixtures_random_n50000_k2to6_alpha0p5-1p0-5p0_minab0p05_seed42.h5
+  extra_val_h5_paths: []
+  test_h5_path: null
+  output_dir: transformer/default/s_bc_n_vs_snip_sqrt_b9da
+
+initialization:
+  mode: scratch
+  checkpoint: null
+
+model:
+  transformer:
+    depth: 6
+    dim: 184
+    n_heads: 8
+    dropout: 0.2
+    cls: true
+    reduce: cls
+    output_head_dim: 256
+  dropout: 0.2
+  head:
+    type: prototype
+    prototype:
+      dim: 256
+      similarity: dot
+      logit_scale_init: 0.5
+  ranking:
+    margin: 0.5
+    max_negatives: 20
+    negative_mode: hard
+  score_temperature: 0.5
+
+preprocessing:
+  pipeline: "S > BC > N > VS"
+  pipeline_tag: s_bc_n_vs__snip_sqrt_b9da_avg
+  baseline: SNIP
+  variance_stabilization: sqrt
+  input_representation: continuous_mz_intensity
+  target_bins: null
+  val_min_species: 2
+  val_max_species: null
+  trf_top_k_peaks: null
+  pure_top_k_peaks: null
+  trf_fixed_length: null
+
+training:
+  batch_size: 64
+  accumulate_grad_batches: 1
+  accelerator: auto
+  devices: 1
+  process_group_backend: null
+  find_unused_parameters: true
+  num_workers: 4
+  shuffle: false
+  pin_memory: false
+  persistent_workers: false
+  prefetch_factor: 1
+  max_epochs: 40
+  train_subsample_seed: 42
+  lr: 0.0001
+  weight_decay: 0.0
+  lr_decay_factor: 1.0
+  warmup_steps: 30
+  checkpoint_monitor: val_pr_auc_loss_tiebreak
+  checkpoint_mode: max
+  gradient_clip_val: 1.0
+  log_every_n_steps: 10
+  mixture_min_species: 2
+  mixture_max_species: 6
+  phases:
+    - dataset: pures
+      name: pure_pretrain
+      epochs: 10
+      lr: 0.0001
+      sampling:
+        fraction: 1.0
+        seed: 42
+    - dataset: mixtures
+      name: mixtures
+      epochs: 40
+      lr: 0.0001
+      sampling:
+        fraction: 1.0
+        seed: 42
+
+comet:
+  enabled: false
+  project: unmixingmaldi
+  workspace: null
+  api_key: null
+  run_name: public_transformer_s_bc_n_vs_snip_sqrt_b9da

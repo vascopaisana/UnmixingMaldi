@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local/editor files
+.DS_Store
+.idea/
+.vscode/
+.env
+.env.*
+!.env.example
+
+# Local machine-specific config and secrets
+config.local.*
+
+# Large local datasets and generated artifacts
+data/raw/
+data/manifests/
+data/mixtures/
+data/pures/
+outputs/
+checkpoints/
+logs/
+evaluation_results/
+
+# Experiment databases and binary analysis artifacts
+*.db
+*.sqlite
+*.sqlite3
+*.pkl
+*.joblib
+
+# Model checkpoints
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.h5
+
+
+# Files & Logs
+*.log
+*.out
+*.csv
+!data/species_mapping.csv
+*.tmp
+*.ipynb

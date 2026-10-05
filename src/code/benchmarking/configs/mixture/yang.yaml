@@ -1,0 +1,37 @@
+model: yang
+implementation: models.yang.YangModel
+default:
+  seed: 42
+  reference_training:
+    mode: DRIAMS_MARISMA_PURES
+  selected_pipeline_id: S-BC-VS-N__snip__log2__b9da_avg__tic
+  selection_metric: mixture_prauc_global
+  model_parameters:
+    normalize_coeffs: false
+    max_species: 6
+    max_candidates: 7
+    score_mode: coefficient_raw
+    use_resampling: true
+    keep_fraction: 0.6
+    block_size_bins: 150
+    n_resamples: 100
+    resample_aggregation: mean
+    reselect_candidates_per_resample: true
+    reselect_profiles_per_resample: true
+    random_state: 42
+  evaluation:
+    threshold_selection: pure_precision_max_pure_recall_max_mixture_precision_095_or_max_mixture_recall_max
+yang:
+  params:
+    normalize_coeffs: false
+    max_species: 6
+    max_candidates: 7
+    score_mode: coefficient_raw
+    use_resampling: true
+    keep_fraction: 0.6
+    block_size_bins: 150
+    n_resamples: 100
+    resample_aggregation: mean
+    reselect_candidates_per_resample: true
+    reselect_profiles_per_resample: true
+    random_state: 42

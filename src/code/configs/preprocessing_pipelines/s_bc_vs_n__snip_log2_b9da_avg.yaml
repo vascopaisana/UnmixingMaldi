@@ -1,0 +1,34 @@
+# Full preprocessing for the S-BC-VS-N pipeline.
+
+pipeline:
+  - Trimmer
+  - Smoother
+  - BaselineCorrecter
+  - VarStabilizer
+  - Normalizer
+  - Binner
+
+params:
+  Trimmer:
+    min: 2000
+    max: 20000
+
+  Smoother:
+    halfwindow: 10
+    polyorder: 3
+
+  BaselineCorrecter:
+    method: "SNIP"
+    snip_n_iter: 20
+
+  VarStabilizer:
+    method: "log2"
+
+  Normalizer:
+    sum: 1
+
+  Binner:
+    start: 2000
+    stop: 20000
+    step: 9
+    aggregation: "mean"
